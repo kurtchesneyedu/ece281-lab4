@@ -129,7 +129,7 @@ architecture top_basys3_arch of top_basys3 is
         );
     end component TDM4;
     
-    signal w_clk_fsm, w_clk_tdm : std_logic;
+    signal w_clk_fsm, w_clk_tdm, clk_div_reset, elevator_controller_reset : std_logic;
     signal w_data : std_logic_vector (3 downto 0);
     signal w_floor_combined : std_logic_vector (7 downto 0);
 
@@ -139,7 +139,7 @@ begin
     generic map ( k_DIV => 25000000 ) -- 2 Hz clock from 100 MHz
     port map (                          
         i_clk   => clk,
-        i_reset => btnL or btnU,
+        i_reset => clk_div_reset,
         o_clk   => w_clk_fsm
     );
     
@@ -153,7 +153,7 @@ begin
         
     elevator_controller_fsm_inst : elevator_controller_fsm
         port map ( i_clk     => w_clk_fsm,
-               i_reset   => btnR or btnU,
+               i_reset   => elevator_controller_reset,
                i_stop    => sw(0),
                i_up_down => sw(1),
                o_floor   => w_floor_combined        
@@ -178,6 +178,10 @@ begin
 	
 	
 	-- CONCURRENT STATEMENTS ----------------------------
+	
+	clk_div_reset <= btnL or btnU;
+	elevator_controller_reset <= btnR or btnU;
+	
 	-- LED 15 gets the FSM slow clock signal. The rest are grounded.
 	led(15) <= w_clk_fsm;
 	led(14) <= w_clk_tdm;
