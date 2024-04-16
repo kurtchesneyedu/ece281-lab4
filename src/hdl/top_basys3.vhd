@@ -173,7 +173,7 @@ begin
         i_D1 => "0000",
         i_D0 => "0000",
         o_data => w_data,
-        o_sel => an
+        o_sel (3 downto 2) => an (3 downto 2)
         );
 	
 	
