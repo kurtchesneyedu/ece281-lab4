@@ -173,8 +173,8 @@ begin
         i_D1 => "0000",
         i_D0 => "0000",
         o_data => w_data,
-        o_sel (3 downto 2) => an (3 downto 2),
-        o_sel (1 downto 0) => open
+        o_sel => an
+--        o_sel (1 downto 0) => open
         );
 	
 	
@@ -194,7 +194,7 @@ begin
 	-- wire up active-low 7SD anodes (an) as required
 	-- Tie any unused anodes to power ('1') to keep them off
 	
-	an(0) <= '1';
-	an(1) <= '1';
+--	an(0) <= '1';
+--	an(1) <= '1';
 	
 end top_basys3_arch;
